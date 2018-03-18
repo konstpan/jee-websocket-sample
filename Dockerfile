@@ -4,8 +4,6 @@ ENV KEYCLOAK_VERSION 3.4.3.Final
 
 RUN /opt/jboss/wildfly/bin/add-user.sh admin secret --silent
 
-RUN /opt/jboss/wildfly/bin/jboss-cli.sh --connect --command=add-jms-queue --name=myQueue --entries=queues/myQueue
-
 WORKDIR /opt/jboss/wildfly
 
 RUN curl -L https://downloads.jboss.org/keycloak/$KEYCLOAK_VERSION/adapters/keycloak-oidc/keycloak-wildfly-adapter-dist-$KEYCLOAK_VERSION.tar.gz | tar zx
@@ -20,4 +18,8 @@ RUN sed -i -e 's/<extensions>/&\n        <extension module="org.keycloak.keycloa
     sed -i -e 's/<extensions>/&\n        <extension module="org.keycloak.keycloak-saml-adapter-subsystem"\/>/' $JBOSS_HOME/standalone/configuration/standalone-full.xml && \
     sed -i -e 's/<profile>/&\n        <subsystem xmlns="urn:jboss:domain:keycloak-saml:1.1"\/>/' $JBOSS_HOME/standalone/configuration/standalone-full.xml
     
+ADD docker-env-customization /opt/jboss/wildfly/docker-env-customization/
+
+RUN /opt/jboss/wildfly/docker-env-customization/execute.sh
+
 CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-c", "standalone-full.xml", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]

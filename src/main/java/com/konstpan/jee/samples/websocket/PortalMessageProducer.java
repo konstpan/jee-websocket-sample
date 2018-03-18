@@ -19,7 +19,7 @@ public class PortalMessageProducer {
 	@Resource(mappedName = "/ConnectionFactory")
 	ConnectionFactory factory;
 	
-	@Resource(mappedName = "/jms/queue/test")
+	@Resource(mappedName = "queue/testQueue")
 	Queue testQueue;
 
 	public void sendMessage() {

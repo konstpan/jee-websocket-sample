@@ -1,0 +1,8 @@
+# Mark the commands below to be run as a batch
+batch
+
+# Add JMS queue
+jms-queue add --queue-address=testQueue --entries=queue/testQueue
+
+# Execute the batch
+run-batch
