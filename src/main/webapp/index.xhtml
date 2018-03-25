@@ -10,15 +10,20 @@
 
 <body>
 
-	<h:panelGroup id="notificationsPanel">
-		<h:outputFormat value="Notification received #{portalController.notificationReceived}" 
-			rendered="#{not empty portalController.notificationReceived}"/>
-	</h:panelGroup>
+	<p:growl id="notificationsPanel" showDetail="true" sticky="true" />
 	
-	<o:socket channel="notifications" onmessage="notificationListener" />
+	<o:socket channel="appNotifications" onmessage="notificationListener" />
+	<o:socket channel="userNotifications" user="#{portalController.remoteUser}" onmessage="notificationListener" />
 	
 	<h:form>
-		<p:commandButton value="Simulate event generation" action="#{portalController.sendMesage}" />
+		<p:commandButton value="Simulate APPLICATION event generation" action="#{portalController.sendMesage}" />
+		<br/>
+		
+		Current authenticated user: <h:outputText value="#{portalController.remoteUser}" />
+		<br/>
+		
+		Recipient authenticated user: <h:inputText value="#{portalController.recipientUser}" /> 
+		<p:commandButton value="Simulate USER event generation" action="#{portalController.sendUserMesage}" />
 		
 		<o:commandScript name="notificationListener" action="#{portalController.receiveNotification}"
 			render=":notificationsPanel" />

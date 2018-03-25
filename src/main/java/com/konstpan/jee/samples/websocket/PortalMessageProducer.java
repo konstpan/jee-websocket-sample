@@ -31,7 +31,34 @@ public class PortalMessageProducer {
 			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
 			MessageProducer producer = session.createProducer(testQueue);
-			Message message = session.createTextMessage(UUID.randomUUID().toString());
+			Message message = session.createObjectMessage(new PushMessage(UUID.randomUUID().toString(), ""));
+			producer.send(message);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (JMSException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void sendUserMessage(String user) {
+		Connection connection = null;
+		Session session = null;
+		
+		try {
+			connection = factory.createConnection();
+			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+
+			MessageProducer producer = session.createProducer(testQueue);
+			Message message = session.createObjectMessage(new PushMessage(UUID.randomUUID().toString(), user));
 			producer.send(message);
 		}
 		catch (Exception e) {

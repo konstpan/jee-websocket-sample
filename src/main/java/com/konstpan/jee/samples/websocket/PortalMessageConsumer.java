@@ -22,25 +22,33 @@ import org.omnifaces.cdi.PushContext;
 public class PortalMessageConsumer implements MessageListener {
 
 	@Inject
-	@Push(channel = "notifications")
-	private PushContext notifications;
+	@Push(channel = "appNotifications")
+	private PushContext appNotifications;
+
+	@Inject
+	@Push(channel = "userNotifications")
+	private PushContext userNotifications;
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
 	@Override
 	public void onMessage(Message message) {
 		try {
-			String msg = message.getBody(String.class);
-			logger.info("Received message " + msg);
-			
+			PushMessage msg = message.getBody(PushMessage.class);
+			logger.info("Received message " + msg.getPayload() + " for user " + msg.getUser());
+
 			Map<String, String> payload = new HashMap<>();
-			payload.put("not", msg);
-			
-			notifications.send(payload);
+			payload.put("not", msg.getPayload());
+
+			if (msg.getUser().length() > 0) {
+				userNotifications.send(payload, msg.getUser());
+			} else {
+				appNotifications.send(payload);
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }

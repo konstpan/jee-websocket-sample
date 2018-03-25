@@ -1,0 +1,7 @@
+{
+  "realm": "portal",
+  "auth-server-url": "http://authserver:8080/auth",
+  "ssl-required": "external",
+  "resource": "web",
+  "public-client": true
+}
