@@ -38,6 +38,6 @@ Browse to
 
 http://localhost:8090/jee-websocket-sample/index.xhtml
 
-Open two browsers and log in with different users. Application events are pushed to all clients, but user events target only the looged in user.
+Open two browsers and log in with different users. Application events are pushed to all clients, but user events target only the logged in user.
 
 * Keycloak uses as user id the ID auto-generated when creating a user in keycloak admin interface.
