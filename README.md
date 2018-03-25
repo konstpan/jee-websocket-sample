@@ -1,5 +1,7 @@
 ### Push notifications from a message driven bean to either all authenticated users or specific ones
 
+[You can visit the blog post here.](https://konstpan.wordpress.com/2018/03/25/push-notifications-in-a-jee-web-application-secured-by-keycloak)
+
 Build the docker image:
 
 docker build --rm --tag=jboss/wildfly-admin .
